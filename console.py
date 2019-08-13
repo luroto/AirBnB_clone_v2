@@ -18,7 +18,7 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = "(hbnb) "
     all_classes = {"BaseModel", "User", "State", "City",
-                   "Amenity", "Place", "Review"}
+                    "Amenity", "Place", "Review"}
 
     def emptyline(self):
         """Ignores empty spaces"""
@@ -44,6 +44,49 @@ class HBNBCommand(cmd.Cmd):
             my_list = line.split(" ")
             obj = eval("{}()".format(my_list[0]))
             obj.save()
+            if len(my_list) > 1:
+                claso = my_list.pop(0)
+                print(type(claso))
+                print("imprimiendo tipo de comando")
+                for i in range(len(my_list)):
+                    if "=" not in my_list[i]:
+                        pass   
+                    argumento = my_list[i].split("=")
+                    llave = argumento[0]
+                    print("probando slices")
+                    type(argumento[0])
+                    print(argumento[0])
+                    print(type(argumento[1]))
+                    if argumento[1][0] == '"' and argumento[1][-1] == '"':
+                        argumento[1] = argumento[1][1:-1]
+                        print(argumento[1])
+                        print("probando desde aqui, esto es un string")
+                        if argumento[1].count('"') > 0:
+                            print("llegue al for de las comillass")
+                            argumento[1].replace('"', '\\"')
+                            print(argumento[1])
+                            print("salimosdelforde las comillas")
+                        if "_" in argumento[1]:
+                            print("entramosalifdel underscore")
+                            argumento[1] = argumento[1].replace("_", " ")
+                            print(argumento[1])
+                            print("salimos del if del underscore")
+                        print("Saliendo del if para los string")
+                        type(argumento[1])
+                    elif "." in argumento[1]:
+                        print(argumento[1])
+                        print("entramos al punto")
+                        argumento[1] = float(argumento[1])
+                        type(argumento[1])
+                        print("Salimos al punto 2")
+                    else:
+                        print("entamos al int")
+                        type(argumento[1])
+                        argumento[1] = int(argumento[1])
+                        print(type(argumento[1]))
+                        print("salimos del int")
+                    print(type(argumento[1]))
+                    i += 1
             print("{}".format(obj.id))
         except SyntaxError:
             print("** class name missing **")
@@ -54,7 +97,7 @@ class HBNBCommand(cmd.Cmd):
         """Prints the string representation of an instance
         Exceptions:
             SyntaxError: when there is no args given
-            NameError: when there is no object taht has the name
+            NameError: when there is no object that has the name
             IndexError: when there is no id given
             KeyError: when there is no valid id given
         """
