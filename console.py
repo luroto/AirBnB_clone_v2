@@ -43,10 +43,9 @@ class HBNBCommand(cmd.Cmd):
                 raise SyntaxError()
             my_list = line.split(" ")
             obj = eval("{}()".format(my_list[0]))
-            obj.save()
             if len(my_list) > 1:
                 claso = my_list.pop(0)
-                for i in range(len(my_list)):
+                for i in range(len(my_list)): 
                     if '=' in my_list[i]:
                         argumento = my_list[i].split("=")
                         llave = argumento[0]
@@ -64,17 +63,15 @@ class HBNBCommand(cmd.Cmd):
                                 argumento[1] = int(argumento[1])
                             except Exception:
                                 break
-                        objects = storage.all()
                         key = claso + '.' + obj.id
-                        storing = objects[key]
                         try:
-                            storing.__dict__[llave] = eval(argumento[1])
+                            obj.__dict__[llave] = eval(argumento[1])
                         except Exception:
-                            storing.__dict__[llave] = argumento[1]
-                            storing.save()
+                            obj.__dict__[llave] = argumento[1]
                         i += 1
                     else:
                         pass
+            obj.save()
             print("{}".format(obj.id))
         except SyntaxError:
             print("** class name missing **")
