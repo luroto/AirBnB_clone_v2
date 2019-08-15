@@ -70,8 +70,4 @@ class BaseModel:
         return my_dict
 
     def delete(self):
-        check = models.storage.all()
-        llave = self.__name__ +'.' + self.id
-        if check[llave]:
-            del(check[llave])
-        models.storage.save()
+        models.storage.delete(self)
