@@ -32,13 +32,12 @@ class FileStorage:
             for key, value in self.__objects.items():
                 dos = key.split(".")[0] == cls.__name__
                 if dos:
-                    new[key] =  value.to_dict()
+                    new[key] = value.to_dict()
             return new
 
-
     def new(self, obj):
-        """sets __object to given obj
-        Args:
+        """ sets __object to given obj
+            Args:
             obj: given object
         """
         if obj:
