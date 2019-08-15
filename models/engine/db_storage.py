@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 """ This file manage all the database """
 
-import os
-from sqlalchemy.orm import sessionmaker
+from os import getenv
+from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import (create_engine)
-from models import BaseModel, Base
+from models.base_model import BaseModel, Base
+from models.state import State
+from models.city import City
 
 
 class DBStorage:
@@ -21,18 +23,20 @@ class DBStorage:
             down all the tables.
         """
 
-        envi = os.environ('HBNB_ENV')
-        my_user = os.environ('HBNB_MYSQL_USER')
-        my_psswd = os.environ('HBNB_MYSQL_PWD')
-        my_host = os.environ('HBNB_MYSQL_HOST')
-        my_datab = os.environ('HBNB_MYSQL_DB')
+        envi = getenv('HBNB_ENV')
+        my_user = getenv('HBNB_MYSQL_USER')
+        my_psswd = getenv('HBNB_MYSQL_PWD')
+        my_host = getenv('HBNB_MYSQL_HOST')
+        my_datab = getenv('HBNB_MYSQL_DB')
 
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
                                       .format(my_user, my_psswd,
-                                              my_host, my_datab))
+                                              my_host, my_datab),
+                                      pool_pre_ping=True)
         self.reload()
+
         if 'test' == envi:
-            Base.metadata.drop_all(tables)
+            Base.metadata.drop_all(self.__engine)
 
     def all():
         """ this contain the filter that depend of the class
@@ -42,12 +46,12 @@ class DBStorage:
         list_cls = []
 
         if cls is None:
-            list_cls += State.query(cls).all()
-            list_cls += City.query(cls).all()
-            list_cls += User.query(cls).all()
-            list_cls += Amenity.query(cls).all()
-            list_cls += Place.query(cls).all()
-            list_cls += Review.query(cls).all()
+            list_cls += self.__session.query(State).all()
+            list_cls += self.__session.query(City).all()
+            #list_cls += User.query(cls).all()
+            #list_cls += Amenity.query(cls).all()
+            #list_cls += Place.query(cls).all()
+            #list_cls += Review.query(cls).all()
 
         else:
             self.__session.query(cls).all()
@@ -66,7 +70,7 @@ class DBStorage:
     def save(self):
         """ commit all the changes to session """
 
-        self.__session.commit(obj)
+        self.__session.commit()
 
     def delete(self, obj=None):
         """ delete from the session """
@@ -78,5 +82,5 @@ class DBStorage:
         """ This function create all the tables and the session """
 
         Base.metadata.create_all(self.__engine)
-        self.__session = scoped_session(sessionmaker(bind=self.__engine),
-                                        expire_on_commit=False)
+        self.__session = scoped_session(sessionmaker(bind=self.__engine,
+                                        expire_on_commit=False))()
