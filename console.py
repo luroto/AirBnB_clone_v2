@@ -44,33 +44,17 @@ class HBNBCommand(cmd.Cmd):
             my_list = line.split(" ")
             obj = eval("{}()".format(my_list[0]))
             if len(my_list) > 1:
-                claso = my_list.pop(0)
-                for i in range(len(my_list)): 
-                    if '=' in my_list[i]:
-                        argumento = my_list[i].split("=")
-                        llave = argumento[0]
-                        if argumento[1][0] == '"' and argumento[1][-1] == '"':
-                            argumento[1] = argumento[1][1:-1]
-                            if argumento[1].count('"') > 0:
-                                argumento[1].replace('"', '\\"')
-                                print(argumento[1])
-                            if "_" in argumento[1]:
-                                argumento[1] = argumento[1].replace("_", " ")
-                        elif "." in argumento[1]:
-                            argumento[1] = float(argumento[1])
-                        else:
-                            try:
-                                argumento[1] = int(argumento[1])
-                            except Exception:
-                                break
-                        key = claso + '.' + obj.id
-                        try:
-                            obj.__dict__[llave] = eval(argumento[1])
-                        except Exception:
-                            obj.__dict__[llave] = argumento[1]
-                        i += 1
-                    else:
-                        pass
+                for x in range(1, len(my_list)):
+                    argumento = my_list[x].split("=")
+                    if "_" in argumento[1]:
+                        argumento[1] = argumento[1].replace("_", " ")
+                    if argumento[1][0] == '"' and \
+                       argumento[1][len(argumento[1]) - 1] == '"':
+                        argumento[1] = argumento[1][1:-1]
+                    try:
+                        obj.__dict__[argumento[0]] = eval(argumento[1])
+                    except Exception:
+                        obj.__dict__[argumento[0]] = argumento[1]
             obj.save()
             print("{}".format(obj.id))
         except SyntaxError:
@@ -82,7 +66,7 @@ class HBNBCommand(cmd.Cmd):
         """Prints the string representation of an instance
         Exceptions:
             SyntaxError: when there is no args given
-            NameError: when there is no object that has the name
+            NameError: when there is no object taht has the name
             IndexError: when there is no id given
             KeyError: when there is no valid id given
         """

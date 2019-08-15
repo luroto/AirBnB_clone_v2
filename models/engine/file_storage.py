@@ -21,7 +21,7 @@ class FileStorage:
     __objects = {}
 
     def all(self, cls=None):
-        """returns a dictionary depends of class
+        """returns a dictionary
         Return:
             returns a dictionary of __object
         """
@@ -29,15 +29,15 @@ class FileStorage:
             return self.__objects
         else:
             new = {}
-            for key, value in self.__objects.items():
-                dos = key.split(".")[0] == cls.__name__
-                if dos:
-                    new[key] = value.to_dict()
+            for key, val in self.__objects.items():
+                k = key.split(".")[0] == cls.__name__
+                if k:
+                    new[key] = val.to_dict()
             return new
 
     def new(self, obj):
-        """ sets __object to given obj
-            Args:
+        """sets __object to given obj
+        Args:
             obj: given object
         """
         if obj:
@@ -65,9 +65,8 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        """ delete obj from __objects
-        """
-        for key, value in self.__objects.items():
-            if obj == value:
+        """ gasdkajdlasjhdiagdasbc asakgkjasbm,asdka """
+        for key, val in self.__objects.items():
+            if obj == val:
                 del self.__objects[key]
                 break

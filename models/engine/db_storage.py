@@ -7,6 +7,10 @@ from sqlalchemy import (create_engine)
 from models.base_model import BaseModel, Base
 from models.state import State
 from models.city import City
+from models.user import User
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class DBStorage:
@@ -38,7 +42,7 @@ class DBStorage:
         if 'test' == envi:
             Base.metadata.drop_all(self.__engine)
 
-    def all():
+    def all(self, cls=None):
         """ this contain the filter that depend of the class
             that is specified
         """
@@ -48,13 +52,13 @@ class DBStorage:
         if cls is None:
             list_cls += self.__session.query(State).all()
             list_cls += self.__session.query(City).all()
-            #list_cls += User.query(cls).all()
-            #list_cls += Amenity.query(cls).all()
-            #list_cls += Place.query(cls).all()
-            #list_cls += Review.query(cls).all()
+            # list_cls += User.query(cls).all()
+            # list_cls += Amenity.query(cls).all()
+            # list_cls += Place.query(cls).all()
+            # list_cls += Review.query(cls).all()
 
         else:
-            self.__session.query(cls).all()
+            list_cls = self.__session.query(cls).all()
 
         for var in list_cls:
             k = type(var).__name__ + '.' + var.id
@@ -83,4 +87,4 @@ class DBStorage:
 
         Base.metadata.create_all(self.__engine)
         self.__session = scoped_session(sessionmaker(bind=self.__engine,
-                                        expire_on_commit=False))()
+                                                     expire_on_commit=False))()
