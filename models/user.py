@@ -3,6 +3,8 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from os import getenv
+import models
+from sqlalchemy.orm import relationship
 
 
 class User(BaseModel, Base):
@@ -13,7 +15,7 @@ class User(BaseModel, Base):
         first_name: first name
         last_name: last name
     """
-    __tablename__ = 'user'
+    __tablename__ = "users"
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         email = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)
