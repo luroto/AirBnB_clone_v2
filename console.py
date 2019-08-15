@@ -43,37 +43,35 @@ class HBNBCommand(cmd.Cmd):
                 raise SyntaxError()
             my_list = line.split(" ")
             obj = eval("{}()".format(my_list[0]))
-            obj.save()
             if len(my_list) > 1:
                 claso = my_list.pop(0)
-                for i in range(len(my_list)):
-                    if '=' not in my_list[i]:
-                        break
-                    argumento = my_list[i].split("=")
-                    llave = argumento[0]
-                    if argumento[1][0] == '"' and argumento[1][-1] == '"':
-                        argumento[1] = argumento[1][1:-1]
-                        if argumento[1].count('"') > 0:
-                            argumento[1].replace('"', '\\"')
-                            print(argumento[1])
-                        if "_" in argumento[1]:
-                            argumento[1] = argumento[1].replace("_", " ")
-                    elif "." in argumento[1]:
-                        argumento[1] = float(argumento[1])
-                    else:
+                for i in range(len(my_list)): 
+                    if '=' in my_list[i]:
+                        argumento = my_list[i].split("=")
+                        llave = argumento[0]
+                        if argumento[1][0] == '"' and argumento[1][-1] == '"':
+                            argumento[1] = argumento[1][1:-1]
+                            if argumento[1].count('"') > 0:
+                                argumento[1].replace('"', '\\"')
+                                print(argumento[1])
+                            if "_" in argumento[1]:
+                                argumento[1] = argumento[1].replace("_", " ")
+                        elif "." in argumento[1]:
+                            argumento[1] = float(argumento[1])
+                        else:
+                            try:
+                                argumento[1] = int(argumento[1])
+                            except Exception:
+                                break
+                        key = claso + '.' + obj.id
                         try:
-                            argumento[1] = int(argumento[1])
+                            obj.__dict__[llave] = eval(argumento[1])
                         except Exception:
-                            break
-                    objects = storage.all()
-                    key = claso + '.' + obj.id
-                    storing = objects[key]
-                    try:
-                        storing.__dict__[llave] = eval(argumento[1])
-                    except Exception:
-                        storing.__dict__[llave] = argumento[1]
-                        storing.save()
-                    i += 1
+                            obj.__dict__[llave] = argumento[1]
+                        i += 1
+                    else:
+                        pass
+            obj.save()
             print("{}".format(obj.id))
         except SyntaxError:
             print("** class name missing **")
