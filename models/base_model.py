@@ -65,13 +65,9 @@ class BaseModel:
         my_dict["__class__"] = str(type(self).__name__)
         my_dict["created_at"] = self.created_at.isoformat()
         my_dict["updated_at"] = self.updated_at.isoformat()
-        if my_dict['_sa_instance_state']:
+        if '_sa_instanced_state' in my_dict is True:
             del(my_dict['_sa_instance_state'])
         return my_dict
 
     def delete(self):
-        check = models.storage.all()
-        llave = self.__name__ +'.' + self.id
-        if check[llave]:
-            del(check[llave])
-        models.storage.save()
+        models.storage.delete(self)
