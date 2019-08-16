@@ -81,7 +81,7 @@ class Place(BaseModel, Base):
             return list_rv
 
         @property
-        def aminities(self):
+        def amenities(self):
             ls_amenity = []
             obj = storage.all(Amenity)
             for key, val in obj.items():
@@ -89,7 +89,7 @@ class Place(BaseModel, Base):
                     ls_amenity.append(val)
             return ls_amenity
 
-        @setter
+        @amenities.setter
         def amenities(self, object1):
             if isinstance(object1, Amenity):
                 ls_amenity.append(object1.id)
