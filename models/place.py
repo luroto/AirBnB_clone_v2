@@ -5,7 +5,26 @@ from sqlalchemy import Column, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from os import getenv
 from models.review import Review
+from models.amenity import Amenity
 import models
+from sqlalchemy import Table
+
+
+place_amenity = Table(
+    'place_amenity',
+    Base.metadata,
+    Column(
+        'place_id',
+        String(60),
+        ForeignKey('places.id'),
+        primary_key=True,
+        nullable=False),
+    Column(
+        'amenity_id',
+        String(60),
+        ForeignKey('amenities.id'),
+        primary_key=True,
+        nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -36,7 +55,8 @@ class Place(BaseModel, Base):
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
         reviews = relationship("Review", backref="place", cascade="delete")
-
+        amenities = relationship("Amenity",
+                                 secondary='place_amenity', viewonly=False)
     else:
         city_id = ""
         user_id = ""
@@ -59,3 +79,17 @@ class Place(BaseModel, Base):
                 if val.place_id == self.id:
                     list_rv.append(val)
             return list_rv
+
+        @property
+        def aminities(self):
+            ls_amenity = []
+            obj = storage.all(Amenity)
+            for key, val in obj.items():
+                if val.amenity_id == self.id:
+                    ls_amenity.append(val)
+            return ls_amenity
+
+        @setter
+        def amenities(self, object1):
+            if isinstance(object1, Amenity):
+                ls_amenity.append(object1.id)
