@@ -54,7 +54,7 @@ class DBStorage:
             list_cls += self.__session.query(City).all()
             list_cls += self.__session.query(User).all()
             list_cls += self.__session.query(Place).all()
-            # list_cls += Amenity.query(cls).all()
+            list_cls += self.__session.query(Review).all()
             # list_cls += Review.query(cls).all()
 
         else:
