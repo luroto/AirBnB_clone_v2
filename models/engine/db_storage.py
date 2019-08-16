@@ -52,9 +52,9 @@ class DBStorage:
         if cls is None:
             list_cls += self.__session.query(State).all()
             list_cls += self.__session.query(City).all()
-            # list_cls += User.query(cls).all()
+            list_cls += self.__session.query(User).all()
+            list_cls += self.__session.query(Place).all()
             # list_cls += Amenity.query(cls).all()
-            # list_cls += Place.query(cls).all()
             # list_cls += Review.query(cls).all()
 
         else:
