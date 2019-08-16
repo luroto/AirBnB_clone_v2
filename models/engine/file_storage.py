@@ -65,7 +65,7 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        """ gasdkajdlasjhdiagdasbc asakgkjasbm,asdka """
+        """ Delete the objects """
         for key, val in self.__objects.items():
             if obj == val:
                 del self.__objects[key]
