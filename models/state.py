@@ -27,6 +27,6 @@ class State(BaseModel, Base):
             obje = storage.all(City)
 
             for key, val in obje.items():
-                if val.satate_id == self.id:
+                if val.state_id == self.id:
                     lista.append(val)
             return lista
