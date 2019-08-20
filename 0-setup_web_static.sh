@@ -7,7 +7,7 @@ SHARED="/data/web_static/shared/"
 RELEASETEST="/data/web_static/releases/test/"
 HTMLF="/data/web_static/releases/test/index.html"
 CURRENT="/data/web_static/current"
-sudo apt-get install nginx
+sudo apt-get install nginx -y
 if [ ! -d "$DATA" ];
   then
     sudo mkdir "$DATA"
