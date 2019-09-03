@@ -2,11 +2,12 @@
 """
 This script starts a Flask web application
 """
-from flask import Flask, escape, request
+from flask import Flask
 
 app = Flask(__name__)
 
 @app.route('/', strict_slashes=False)
+""" This section defines a route"""
 def home():
     """This section defines content for home route"""
     return "Hello HBNHB!"
