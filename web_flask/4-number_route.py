@@ -36,6 +36,7 @@ def python(text="is cool"):
             text = text.replace("_", " ")
         return("Python {}".format(text))
 
+
 @app.route('/number/<int:number>')
 def number(number):
         """ This section defines procedures for number routes"""
