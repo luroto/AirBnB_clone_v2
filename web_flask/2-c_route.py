@@ -21,12 +21,11 @@ def hbnb():
 
 
 @app.route('/c/<text>')
-def c():
+def c(text):
         """ This section defines for routes for variables"""
-        texto = text
-        if "_" in texto:
-            texto = texto.translate("_", " ")
-        return ("C {}".format(texto))
+        if "_" in text:
+            text = text.replace("_", " ")
+        return ("C {}".format(text))
 
 
 if __name__ == '__main__':
