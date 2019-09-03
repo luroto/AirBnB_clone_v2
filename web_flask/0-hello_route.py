@@ -10,7 +10,7 @@ app = Flask(__name__)
 @app.route('/', strict_slashes=False)
 def home():
     """This section defines content for home route"""
-    return "Hello HBNHB"
+    return "Hello HBNHB!"
 
 
 if __name__ == '__main__':
