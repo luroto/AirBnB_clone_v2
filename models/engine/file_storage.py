@@ -32,7 +32,7 @@ class FileStorage:
             for key, val in self.__objects.items():
                 k = key.split(".")[0] == cls.__name__
                 if k:
-                    new[key] = val.to_dict()
+                    new.update({key: val})
             return new
 
     def new(self, obj):
@@ -70,3 +70,7 @@ class FileStorage:
             if obj == val:
                 del self.__objects[key]
                 break
+    
+    def close(self):
+        """ Calls a reload for deserializing the JSON file """
+        self.reload()
