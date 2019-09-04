@@ -49,13 +49,14 @@ def number_template(number):
     including HTML documents"""
     return render_template('5-number.html', number=number)
 
-@app.route('/number_odd_or_even/<int:number>')
-def number_odd_even(number):
+
+@app.route('/number_odd_or_even/<int:n>')
+def number_odd_even(n):
     """ This section defines procedures for number for even and odd"""
-    if number % 2 == 0:
-        return render_template('6-number_odd_or_even.html', number=number, oden="even")
+    if n % 2 == 0:
+        return render_template('6-number_odd_or_even.html', n=n, oden="even")
     else:
-        return render_template('6-number_odd_or_even.html', number=number, oden="odd")
+        return render_template('6-number_odd_or_even.html', n=n, oden="odd")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
